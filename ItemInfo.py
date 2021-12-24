@@ -11,9 +11,8 @@ json_path = os.getcwd()
 data = open(json_path + '\\ItemInfo.json')
 json_data = json.load(data)
 
-# Putting the json data into variables
+# Storing the json data into a list
 Items = json_data['ItemNumbers']['Items'].items()
-values = []
+ASIN_values = []
 for items in Items:
-    values.append(items[1])
-
+    ASIN_values.append(items[1])
