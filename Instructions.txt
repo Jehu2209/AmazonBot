@@ -1,0 +1,45 @@
+Welcome to Jehu2209's AmazonBot!
+Since you're here, you want to use a bot to automate your amazon purchases for any number of reasons.
+Well to do this you first need to set up this bot, but don't worry the set up is simple.
+
+First:
+Find the folder that this repository was cloned too (this repository is named 'AmazonBot').
+
+Second:
+Open 'LoginCredentials.json', and edit the lines "Username" and "Password" with your Amazon--
+Username and Password (it should look like "Username": "example_username" when finished)
+
+Third:
+Go to Amazon.com and find the ASIN number of the product you want to buy--
+( can be found after /dp/ in the amazon url for example:
+www.amazon.com/Example_Product_Name/dp/0123456789/)
+
+Fourth:
+Repeat step two but this time editing 'ItemInfo.json'
+
+Fifth:
+Hit the Windows Key + X
+Click Run
+Type cmd.exe
+
+Sixth:
+Type into the Command Terminal 'pip help'
+Hit Enter
+If 'pip' is recognized skip to step seven.
+If not continue with this step.
+Type 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
+Hit Enter
+Type 'python get-pip.py'
+Hit Enter
+
+Seven:
+With the Command Terminal still open
+Type 'pip install selenium'
+Hit Enter
+Type 'pip install webdriver_manager'
+Hit Enter
+Type 'pip install pandas'
+Hit Enter
+
+Eighth:
+# TODO : finish instructions
