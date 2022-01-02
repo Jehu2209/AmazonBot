@@ -1,11 +1,15 @@
+# Copyright 2021, Jehu Morning, All rights reserved.
+# TODO : add firefox support and test/add mac support
 # Utlizing Selenium to construct the bot
 
 # Importing variables TODO : Test whether importing from seperate .py files becomes a problem
-from BotFiles.LoginCredentials import Username, Password
-from BotFiles.ItemInfo import ASIN_values
-from BotFiles.URL_Creation import URL_list
+import sys
 
-# Importing modules TODO : Determine which modules are unneeded
+from LoginCredentials import Username, Password
+from ItemInfo import itemINFO_dict
+from URL_Creation import urlList
+
+# Importing modules
     # Selenium modules for bot automation
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -15,34 +19,22 @@ from selenium.webdriver.common.by import By
     # System modules for various uses
 import os
 import time
-import sys
 
 # Used in ProductCheck() to pause the function to increase time before stack overflow
-wait_time = int(input('Input wait time between repetitions(3 seconds is recommended):'))
-
-# Path to Chrome Driver
-driver_path = os.getcwd() + '\\ChromeDriver\\chromedriver.exe'
-ser_path = Service(driver_path)
-
-# Creates an instance of webdriver
-chrome_options = Options()
-chrome_options.add_experimental_option("detach", True)
-driver = webdriver.Chrome(service=ser_path, options=chrome_options)
+waitTime = int(input('Input wait time between repetitions(3 seconds is recommended):'))
 
 # Determines whether Bot runs headless
-    # Receiving input either yes or no
-headless_run = str(input('Run headless? y/n:'))
-    # Testing input
-if headless_run == 'y':
-    # If yes runs bot headless
-    chrome_options.add_argument("--headless")
-else:True
+chromeOptions = Options()
 
-# Amazon URL
-amazon_url = 'https://www.amazon.com'
+# Path to Chrome Driver
+serPath = Service(f'{os.getcwd()}\\chromedriver.exe')
+
+# Creates an instance of webdriver
+chromeOptions.add_experimental_option("detach", True)
+driver = webdriver.Chrome(options=chromeOptions) # TODO :  Fix
 
 # Opening Amazon.com
-driver.get(amazon_url)
+driver.get('https://www.amazon.com')
 
 # TODO : Unlock this section in release draft
 '''
@@ -59,26 +51,43 @@ driver.find_element(By.ID, 'ap_password').send_keys(Password)
 driver.find_element(By.ID, 'signInSubmit').click()
 '''
 # Function which finds product availability and return a Boolean
-def StockCheck(): # TODO : Create and test a solely stock checking feature
-    availability_text = driver.find_element(By.XPATH, '//*[@id="availability"]/span').text
-    if availability_text == 'Out of Stock.': # TODO : Change this to 'In Stock.' when finished testing
+def StockCheck():
+    if driver.find_element(By.XPATH, '//*[@id="availability"]/span').text == 'In stock.': # Finds the availibility text and returns boolean
+        return True
+    else:
+        return False
+
+# Function which finds product price, compares it to price params and returns a Boolean
+def PriceCheck(minPrice, maxPrice, checkValue):
+    price = int(driver.find_element(By.CLASS_NAME, 'a-price-whole').text)
+    print(driver.find_element(By.CLASS_NAME, 'a-price-whole').text)
+    if minPrice[checkValue] <= price and price <= maxPrice[checkValue]:
         return True
     else:
         return False
 
 # Function which takes the product availability and cycles through until StockCheck() returns True
 def ProductCheck():
-    n = 0 # TODO : Consider changing all instances of 'n' to different variables to avoid errors
-    ListItems = len(URL_list) - 1 # Gets the number of items in the URL_List
-    while n <= ListItems: # Cycles through URL_list, opening, testing, and closing each url in loop
-        driver.get(URL_list[n])
-        time.sleep(wait_time) # Waits before starting calling StockCheck()
+    ProductCheck_cycles = 0
+    ListItems = len(urlList) - 1 # Gets the number of items in the URL_List
+    while ProductCheck_cycles <= ListItems: # Cycles through URL_list, opening, testing, and closing each url in loop
+        driver.get(urlList[ProductCheck_cycles])
+        print(f'Checking {urlList[ProductCheck_cycles]}...')
+        time.sleep(waitTime) # Waits before starting calling StockCheck()
         if StockCheck() == True: # StockCheck() finds the availability of the item by scraping the html
-            # TODO : Change on release to 'Buy Now'- (id="buy-now-button")
-            driver.find_element(By.ID, 'add-to-cart-button').click() # Finds and clicks the Add to Cart buttom
-        else: n += 1
-    if n > (ListItems - 1): n = 0 # Resets n after the last item in URL_list has been checked
+            print(f'{urlList[ProductCheck_cycles]} is in stock!')
+            time.sleep(waitTime)
+            if PriceCheck(itemINFO_dict["MINPRICE"], itemINFO_dict["MAXPRICE"], ProductCheck_cycles) == True:
+                driver.find_element(By.ID, 'add-to-cart-button').click() # Finds and clicks the Buy Now buttom
+                sys.exit()
+            else:
+                print(f'{urlList[ProductCheck_cycles]} out of price range!')
+                pass
+        else:
+            print(f'{urlList[ProductCheck_cycles]} is out of stock!')
+            ProductCheck_cycles += 1
+    if ProductCheck_cycles > (ListItems - 1): ProductCheck_cycles = 0 # Resets n after the last item in URL_list has been checked
     return ProductCheck()
 
-# Calling the function
+# Calling the functions
 ProductCheck()
