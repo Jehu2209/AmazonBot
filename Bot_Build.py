@@ -2,7 +2,7 @@
 # TODO : add firefox support and test/add mac support
 # Utlizing Selenium to construct the bot
 
-# Importing variables TODO : Test whether importing from seperate .py files becomes a problem
+# Importing variables 
 import sys
 
 from LoginCredentials import Username, Password
