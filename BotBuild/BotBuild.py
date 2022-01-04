@@ -43,10 +43,8 @@ for i in BOTDict["asinNums"]:
     BOTDict["asinUrls"].append(f'{baseURL}{BOTDict["asinNums"][urlCycles]}')
     urlCycles += 1
 # defining path to chromedriver
-chromeDriverPath = f'{os.getcwd()}'.split('/')
-chromeDriverPath.pop()
-chromeDriverPath.append('chromedriver')
-chromeDriverPath = '/'.join(chromeDriverPath)
+chromeDriverPath = f'{os.getcwd()}/chromedriver'
+print(chromeDriverPath)
 # defining the waitTime
 waitTime = int(input('Input wait time between repetitions(3 seconds is recommended):'))
 # importing selenium modules
