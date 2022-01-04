@@ -1,6 +1,5 @@
 {
   "ItemINFO": {
-    "Item_groups": 2,
     "Items": {
       "Item_1": {
         "ASIN_NUMBER": "B08W8DGK3X",
@@ -11,11 +10,17 @@
         "ASIN_NUMBER": "B08ZZW34T3",
         "MIN_PRICE": 201,
         "MAX_PRICE": 501
+      },
+      "Item_3": {
+        "ASIN_NUMBER": "B07MDVCDC5",
+        "MIN_PRICE": 29,
+        "MAX_PRICE": 49
+
       }
     }
   },
   "LoginFo": {
-    "UserEmail": "placeHolder",
-    "UserPassword": "placeHolder"
+    "UserEmail": "Jehuemail",
+    "UserPassword": "Jehupassword"
   }
 }
