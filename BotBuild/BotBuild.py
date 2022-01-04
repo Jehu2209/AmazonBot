@@ -1,4 +1,4 @@
-# code go here
+# Copyright 2021, Jehu Morning, All Rights Reserved.
 # A simplified file which takes the old parts of bot build and stream lines them.
 # Imports
 import json
