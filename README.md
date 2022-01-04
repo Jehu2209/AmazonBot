@@ -9,8 +9,10 @@ This bot is really my first major project with python which I have used to reall
 2. Clone this repository to your files and make sure to write down the path to the file i.e.(/usr/path/to/file)
 3. [Install pip to your computer](https://pip.pypa.io/en/stable/installation/)
 3. pip install the following modules to the previous file path:
+  ```
   $ cd /usr/path/to/file
   pip install requests
   pip install selenium
   pip install webdriver-manager
+  ```
   
