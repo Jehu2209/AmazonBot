@@ -1,10 +1,15 @@
-# Copyright 2021, Jehu Morning, All Rights Reserved.
+# Copyright 2021, Jehu Morning, All Rights Reserved
 # A simplified file which takes the old parts of bot build and stream lines them.
 # Imports
-import json
-import os
-import sys
-import time
+import json, os, sys, time, requests, re
+# importing selenium modules
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+# importing beautifulsoup modules
+from bs4 import BeautifulSoup
 # JSON reading
     # Sets file path to JSONBuild rather than BotBuild
 JSONBuildPath = f'{os.getcwd()}'.split('/')
@@ -47,16 +52,6 @@ chromeDriverPath = f'{os.getcwd()}/chromedriver'
 print(chromeDriverPath)
 # defining the waitTime
 waitTime = int(input('Input wait time between repetitions(3 seconds is recommended):'))
-# importing selenium modules
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-# importing beautifulsoup modules
-from bs4 import BeautifulSoup
-import requests
-import re
 # setting up selenium
 chromeOptions = Options()
 # Creating an service object for chromeDriverPath
@@ -64,6 +59,7 @@ serPath = Service(chromeDriverPath)
 # Creates an instance of webdriver
 chromeOptions.add_experimental_option("detach", True)
 driver = webdriver.Chrome(service=serPath, options=chromeOptions)
+agent = driver.execute_script("return navigator.userAgent")
 # Opening Amazon.com
 driver.get('https://www.amazon.com/')
 # Functions for bot algos
@@ -73,12 +69,12 @@ def StockCheck():
         return True
     else:
         return False
-    # Checks the price TODO : Figure price checker
+    # Checks the price 
 def PriceCheck(minPrice, maxPrice, url):
     # Scrapes the price data from amazon
     headers = {
         "upgrade-insecure-requests": "1",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:95.0) Gecko/20100101 Firefox/95.0",
+        "User-Agent": agent,
     }
     website = requests.get(url, headers=headers)
     soup = BeautifulSoup(website.content, 'lxml')
