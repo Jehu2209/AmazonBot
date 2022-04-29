@@ -1,5 +1,5 @@
 # AmazonBot
-A repository for my amazon bot. Use of this bot 
+A repository for my amazon bot. Use of this bot in accordance with Amazon.com TOS.
 
 # About the bot:
 This bot is really my first major project with python which I have used to really learn how to program, while its not perfect it works well with minimum bugs and does its task.
