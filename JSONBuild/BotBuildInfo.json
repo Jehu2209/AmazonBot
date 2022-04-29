@@ -20,7 +20,7 @@
     }
   },
   "LoginFo": {
-    "UserEmail": "Jehuemail",
-    "UserPassword": "Jehupassword"
+    "UserEmail": "email",
+    "UserPassword": "password"
   }
 }
